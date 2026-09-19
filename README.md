@@ -90,6 +90,8 @@ your one owner account, then visit `/admin` to add projects.
 5. Deploy. The `public/_redirects` file already tells Netlify to route all
    paths to `index.html` so `/admin` and `/login` work on refresh.
 
+6. Website link (https://portfoli-khan-netlify.netlify.app/)
+
 ## Notes
 
 - The homepage content (name, role, about text, skills, email/social
