@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
-import { useAuth } from '../context/AuthContext'
 import ProjectCard from '../components/ProjectCard'
 
 export default function Home() {
@@ -10,17 +9,26 @@ export default function Home() {
 
   useEffect(() => {
     let active = true
+
     async function load() {
       const { data, error } = await supabase
         .from('projects')
         .select('*')
         .order('created_at', { ascending: false })
+
       if (!active) return
-      if (error) setError(error.message)
-      else setProjects(data ?? [])
+
+      if (error) {
+        setError(error.message)
+      } else {
+        setProjects(data ?? [])
+      }
+
       setLoading(false)
     }
+
     load()
+
     return () => {
       active = false
     }
@@ -45,8 +53,13 @@ export default function Home() {
           </p>
 
           <div className="hero-buttons">
-            <a href="/#projects" className="btn primary-btn">View My Work</a>
-            <a href="/#contact" className="btn secondary-btn">Contact Me</a>
+            <a href="/#projects" className="btn primary-btn">
+              View My Work
+            </a>
+
+            <a href="/#contact" className="btn secondary-btn">
+              Contact Me
+            </a>
           </div>
         </div>
 
@@ -63,15 +76,19 @@ export default function Home() {
                 <span className="purple">const</span>
                 <span className="blue"> developer</span> = {'{'}
               </p>
+
               <p className="indent">
                 name: <span className="green">"Tariq Khan"</span>,
               </p>
+
               <p className="indent">
                 role: <span className="green">"Developer"</span>,
               </p>
+
               <p className="indent">
                 passion: <span className="green">"Building Solutions"</span>
               </p>
+
               <p>{'};'}</p>
             </div>
           </div>
@@ -107,7 +124,9 @@ export default function Home() {
               Python, databases, Git, and other modern technologies.
             </p>
 
-            <a href="/#skills" className="text-link">See my skills →</a>
+            <a href="/#skills" className="text-link">
+              See my skills →
+            </a>
           </div>
         </div>
       </section>
@@ -117,17 +136,27 @@ export default function Home() {
         <p className="section-small-title">Things I've built</p>
         <h2 className="section-title">Featured Projects</h2>
 
-        {loading && <p className="project-status">Loading projects…</p>}
-        {error && <p className="project-status">{error}</p>}
+        {loading && (
+          <p className="project-status">Loading projects...</p>
+        )}
+
+        {error && (
+          <p className="project-status">{error}</p>
+        )}
+
         {!loading && !error && projects.length === 0 && (
           <p className="project-status">
-            No projects yet — log in as the owner to add the first one.
+            No projects yet. Log in as the owner to add the first one.
           </p>
         )}
 
         <div className="project-grid">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i} />
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={index}
+            />
           ))}
         </div>
       </section>
@@ -138,12 +167,41 @@ export default function Home() {
         <h2 className="section-title">Skills &amp; Technologies</h2>
 
         <div className="skills-container">
-          <div className="skill-card"><span>01</span><h3>HTML</h3><p>Structure</p></div>
-          <div className="skill-card"><span>02</span><h3>CSS</h3><p>Styling</p></div>
-          <div className="skill-card"><span>03</span><h3>JavaScript</h3><p>Interaction</p></div>
-          <div className="skill-card"><span>04</span><h3>React</h3><p>Frontend</p></div>
-          <div className="skill-card"><span>05</span><h3>Python</h3><p>Programming</p></div>
-          <div className="skill-card"><span>06</span><h3>GitHub</h3><p>Version Control</p></div>
+          <div className="skill-card">
+            <span>01</span>
+            <h3>HTML</h3>
+            <p>Structure</p>
+          </div>
+
+          <div className="skill-card">
+            <span>02</span>
+            <h3>CSS</h3>
+            <p>Styling</p>
+          </div>
+
+          <div className="skill-card">
+            <span>03</span>
+            <h3>JavaScript</h3>
+            <p>Interaction</p>
+          </div>
+
+          <div className="skill-card">
+            <span>04</span>
+            <h3>React</h3>
+            <p>Frontend</p>
+          </div>
+
+          <div className="skill-card">
+            <span>05</span>
+            <h3>Python</h3>
+            <p>Programming</p>
+          </div>
+
+          <div className="skill-card">
+            <span>06</span>
+            <h3>GitHub</h3>
+            <p>Version Control</p>
+          </div>
         </div>
       </section>
 
@@ -151,10 +209,12 @@ export default function Home() {
       <section className="contact-section" id="contact">
         <div className="contact-container">
           <p className="section-small-title">Get In Touch</p>
+
           <h2>
             Let's build something
-            <span>great together.</span>
+            <span> great together.</span>
           </h2>
+
           <p className="contact-description">
             Have a question, project idea, or opportunity? Send me a message
             using the form below.
@@ -162,45 +222,94 @@ export default function Home() {
 
           <form
             className="contact-form"
-            action="https://formspree.io/f/YOUR_FORM_ID"
+            action="https://formspree.io/f/xbgloney"
             method="POST"
           >
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="contact-name">Your Name</label>
-                <input type="text" id="contact-name" name="name" placeholder="John Smith" required />
+
+                <input
+                  type="text"
+                  id="contact-name"
+                  name="name"
+                  placeholder="John Smith"
+                  required
+                />
               </div>
+
               <div className="form-group">
                 <label htmlFor="contact-email">Your Email</label>
-                <input type="email" id="contact-email" name="email" placeholder="john@example.com" required />
+
+                <input
+                  type="email"
+                  id="contact-email"
+                  name="email"
+                  placeholder="john@example.com"
+                  required
+                />
               </div>
             </div>
 
             <div className="form-group">
               <label htmlFor="contact-subject">Subject</label>
-              <input type="text" id="contact-subject" name="subject" placeholder="Project inquiry" required />
+
+              <input
+                type="text"
+                id="contact-subject"
+                name="subject"
+                placeholder="Project inquiry"
+                required
+              />
             </div>
 
             <div className="form-group">
               <label htmlFor="contact-message">Message</label>
-              <textarea id="contact-message" name="message" rows="6" placeholder="Tell me about your project..." required></textarea>
+
+              <textarea
+                id="contact-message"
+                name="message"
+                rows="6"
+                placeholder="Tell me about your project..."
+                required
+              ></textarea>
             </div>
 
-            <button type="submit" className="contact-submit">Send Message →</button>
+            <button type="submit" className="contact-submit">
+              Send Message →
+            </button>
           </form>
         </div>
       </section>
 
+      {/* ================= FOOTER ================= */}
       <footer>
-        <a href="/#home" className="footer-logo">TK<span>.</span></a>
+        <a href="/#home" className="footer-logo">
+          TK<span>.</span>
+        </a>
+
         <p>Designed &amp; built by Tariq Khan</p>
+
         <div className="social-links">
-          <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="https://linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a
+            href="https://github.com/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+          </a>
+
+          <a
+            href="https://www.linkedin.com/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn
+          </a>
+
           <a href="/#contact">Contact</a>
         </div>
       </footer>
     </main>
   )
 }
-
